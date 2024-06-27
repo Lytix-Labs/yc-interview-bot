@@ -125,7 +125,10 @@ const Home: React.FC<{}> = () => {
           <Button
             variant={"secondary"}
             onClick={() => {
-              window.open("https://blog.lytix.co", "_blank");
+              window.open(
+                "https://blog.lytix.co/posts/yc-interviewer-bot",
+                "_blank"
+              );
             }}
           >
             📖 Why & How We Built This
