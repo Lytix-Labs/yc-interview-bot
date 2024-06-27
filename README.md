@@ -1,6 +1,9 @@
-# YC Interview Bot
-
-We've built this to help folks navigate the YC interview process. Check out our blog post [here](https://blog.lytix.co/posts/yc-interviewer-bot) to learn more.
+<h1 align="center">
+    💬 YC Interview Bot
+</h1>
+<p align="center">
+We've built this to help folks navigate the YC interview process. Check out our blog post <a href="https://blog.lytix.co/posts/yc-interviewer-bot">here</a> to learn more.
+</p>
 
 ## Live
 
