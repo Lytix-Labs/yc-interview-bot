@@ -12,8 +12,7 @@ const StartPage: React.FC<{ moveToNextPage: () => void }> = ({
         you personalized advice and tips based on your application.
       </p>
       <p className="text-sm text-center">
-        We've trained this bot on a mixture of data from YC and ✨ Paul Graham
-        ✨.
+        We've trained this bot on data from ✨ Paul Graham ✨.
       </p>
 
       <div className="flex mt-3 items-center justify-center">
