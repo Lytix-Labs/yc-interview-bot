@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import { usePostHog } from "posthog-js/react";
 import React from "react";
 import {
@@ -165,6 +166,7 @@ const App = () => {
           <Route path="/settings" element={<Settings />} />
         </Routes>
         <Toaster />
+        <Analytics />
       </Router>
     </>
   );
