@@ -1,5 +1,5 @@
-const BASE_URL = "http://localhost:8001";
-// "https://api-yc-bot.lytix.co";
+const BASE_URL = "https://api-yc-bot.lytix.co";
+//"http://localhost:8001";
 
 /**
  * @param file File to upload
