@@ -71,6 +71,39 @@ const UploadAppPage: React.FC<{
     }
   };
 
+  const onSubmitLazy = async () => {
+    /**
+     * Set our loading spinner up
+     */
+    setLoading(true);
+
+    /**
+     * Upload and get our questions
+     */
+    try {
+      const response: { questions: string[] } = await HttpUtil.uploadFile(null);
+
+      /**
+       * Congratulate them, and move on
+       */
+      moveToNextPage(response.questions);
+      setLoading(false);
+      toast({
+        title: "🚀 Success",
+        description:
+          "We've automatically used SpareChange's (our venture before Lytix) application to get started",
+      });
+    } catch (error) {
+      toast({
+        title: "🚨 Error",
+        description: "Something went wrong",
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
+  };
+
   return (
     <div>
       <p className="font-semibold text-lg text-center">
@@ -97,6 +130,9 @@ const UploadAppPage: React.FC<{
             <Button onClick={onSubmit}>Upload Application</Button>
             <Button variant={"outline"} onClick={() => setOpenWhereToGet(true)}>
               👀 Where Do I Get This?
+            </Button>
+            <Button variant={"outline"} onClick={onSubmitLazy}>
+              ⚡️ I'm lazy
             </Button>
           </div>
         </div>

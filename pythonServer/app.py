@@ -62,30 +62,40 @@ def validator(x) -> bool:
 
 
 @app.post(f"{baseURL}/uploadFile")
-async def upload(file: UploadFile = File(...)):
+async def upload(file: UploadFile = None):
     try:
-        full_pdf = PdfReader(file.file)
+        if file is None:
+            responseFormatted = """Spare Change is a fintech startup that helps customers donate to their favorite charities with every transaction. The company was founded by Sahil Sinha and Sidhartha Premkumar, who met in high school and have experience in fintech. They aim to make donating to charity seamless and fun, like buying stocks or paying friends.
 
-        extracted_text = ""
-        for page in full_pdf.pages:
-            extracted_text += page.extract_text()
+The founders have a live beta version of the app, which has processed $10 in donations from 5 users. They plan to monetize the app through transaction fees, voluntary tips, and selling ad space to socially conscious businesses.
 
-        # Lets summarize the application first
-        prompt = f"Given this application to a startup accelerator. Please summarize it in less than 500 words for me with no other text: {extracted_text}"
-        response = await queryModel(
-            model=ModelTypes.llama_3_8b_instruct,
-            messages=[
-                ModelMessage(
-                    role="system",
-                    content="You are a helpful assistant",
-                ),
-                ModelMessage(role="user", content=prompt),
-            ],
-            temperature=0,
-        )
-        responseFormatted = response.replace(
-            "Here is a summary of the application in under 500 words:", ""
-        )
+The company's competitors include other round-up apps, philanthropic arms of big tech companies, and social-impact dedicated fintech startups. Spare Change differentiates itself by offering flexibility in donation amounts, charity vetting, and a wider acquisition funnel.
+
+The founders plan to split equity evenly between themselves and have not formed a legal entity yet. They have not raised any funding and are not currently fundraising."""
+        else:
+            full_pdf = PdfReader(file.file)
+
+            extracted_text = ""
+            for page in full_pdf.pages:
+                extracted_text += page.extract_text()
+
+            # Lets summarize the application first
+            prompt = f"Given this application to a startup accelerator. Please summarize it in less than 500 words for me with no other text: {extracted_text}"
+            response = await queryModel(
+                model=ModelTypes.llama_3_8b_instruct,
+                messages=[
+                    ModelMessage(
+                        role="system",
+                        content="You are a helpful assistant",
+                    ),
+                    ModelMessage(role="user", content=prompt),
+                ],
+                temperature=0,
+            )
+
+            responseFormatted = response.replace(
+                "Here is a summary of the application in under 500 words:", ""
+            )
 
         # Okay now we need to embed the summary, and find similar essays
         embeddedResults = openAiClient.embeddings.create(
@@ -129,13 +139,17 @@ async def upload(file: UploadFile = File(...)):
         # Awesome, now lets return this to the user
         return {"questions": json.loads(response)}
     except Exception:
-        logger.error(f"Error uploading file: {file.filename}", exc_info=True)
+        logger.error(
+            f"Error uploading file: {file is None} {file.filename if file is not None else ''}",
+            exc_info=True,
+        )
         return JSONResponse(
             status_code=400,
             content={"message": "There was an error uploading the file"},
         )
     finally:
-        file.file.close()
+        if file is not None:
+            file.file.close()
 
 
 @app.get("/health")
