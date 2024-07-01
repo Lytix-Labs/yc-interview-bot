@@ -72,6 +72,12 @@ const UploadAppPage: React.FC<{
   };
 
   const onSubmitLazy = async () => {
+    toast({
+      title: "Lets get started",
+      description:
+        "We'll just use our (SpareChange) YC application to show you what this bot can do",
+    });
+
     /**
      * Set our loading spinner up
      */
